@@ -1,0 +1,138 @@
+/* Reset and global styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+:root {
+    /* Design System */
+    --primary-color: #2c3e50;
+    --secondary-color: #e74c3c;
+    --success-color: #27ae60;
+    --warning-color: #f39c12;
+    --info-color: #3498db;
+    --light-color: #ecf0f1;
+    --dark-color: #34495e;
+    --border-color: #bdc3c7;
+    --text-color: #333;
+    --text-color-light: #999;
+    --text-color-dark: #555;
+    --text-color-white: #fff;
+    
+    /* Typography */
+    --fontSize: 16px;
+
+    /* Spacing */
+    --p1: 8px;
+    --p2: 16px;
+    --p3: 24px;
+    --p4: 32px;
+    --p5: 40px;
+}
+
+header {
+    background-color: var(--primary-color);
+    padding: var(--p2) var(--p3);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.main-container {
+    margin: 0 auto;
+    display: flex;
+    height: calc(100vh - 60px);
+}
+
+.sidebar {
+    width: 300px;
+    background-color: var(--light-color);
+    padding: 30px;
+    border-right: 1px solid var(--border-color);
+    height: 100%;
+}
+
+.content {
+    flex: 1;
+    padding: var(--p3);
+    height: 100%;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+}
+
+nav ul li {
+    margin-left: var(--p2);
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: var(--text-color-light);
+    font-size: var(--fontSize);
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+nav ul li a:hover {
+    color: var(--text-color-white);
+}
+
+aside ul li {
+    margin-bottom: var(--p1);
+    list-style: none;
+}
+
+aside ul li a {
+    text-decoration: none;
+    color: var(--text-color);
+    font-size: var(--fontSize);
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+aside ul li a:hover {
+    color: var(--dark-color);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .header-container {
+        flex-direction: column;
+    }
+
+    .main-container {
+        flex-direction: column;
+    }
+
+    /* Hide nav and sidebar on smaller screens */
+    nav, .sidebar {
+        display: none;
+    }
+
+    .content {
+        padding: var(--p2);
+    }
+}
+
+@media (max-width: 480px) {
+    /* Further adjustments for very small screens */
+    .header-container {
+        padding: var(--p1);
+    }
+}
