@@ -1,0 +1,4 @@
+sqlalchemy
+transformers
+torch
+sentence-transformers
