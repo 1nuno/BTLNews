@@ -165,3 +165,6 @@ data_folder/secrets.yaml
 
 **/staticfiles/**
 staticfiles/
+
+# Ignore all .sqlite3 files
+*.sqlite3

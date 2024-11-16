@@ -149,6 +149,17 @@ make lint
 ```
 That will point something wrong on the organization of your code. Before opening a new Merge Request make sure to run this.
 
+### Load Original Data into Postgress
+
+If it is the first time you are running this project or you didn't have loaded the data yet, you should download the sqlite file from our [google drive](https://drive.google.com/file/d/1qCVdBCpu80rOqPVud5ks__Vg54kCv1Hx/view?usp=drive_link) and add extract it to the right folder like the following path:
+
+```bash
+  by-the-law/apps/dre/migrations/data/2024-10-27-DRE.sqlite3
+```
+
+If you try to migrate before this migration will fail, since it will not find the right path.
+
+
 ### Migrate the Database
 
 After the containers are up, apply migrations to set up the database schema:
