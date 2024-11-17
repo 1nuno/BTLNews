@@ -1,93 +1,201 @@
-# By The Law
 
+#  ByTheLaw News
 
+This is a web project that provides a more user-friendly interface to the Diário da República (the official gazette of Portugal) data. The project aims to make it easier for users to search, view, and interact with legal documents and announcements published by the Portuguese government.
 
-## Getting started
+## Prerequisites
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+Ensure you have Docker, Docker Compose, and Make installed on your system:
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+- **Docker**: Download and install from [Docker's official website](https://www.docker.com/get-started).
+- **Docker Compose**: Usually bundled with Docker Desktop. Verify installation with:
+  ```bash
+  docker-compose --version
+  ```
+- **Make**: Make is often pre-installed on Unix-based systems. To check if it's available, run:
 
-## Add your files
+  ```bash
+  make --version
+  ```
+  > If `make` is not installed, you can install it via your package manager. For example, on Ubuntu:
+    ```bash
+    sudo apt-get install make
+    ```
+  > For Windows, you may need to install Make via a compatible tool like [Chocolatey](https://chocolatey.org/) or use WSL (Windows Subsystem for Linux).
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+## Getting Started
 
+Follow these steps to set up and run the project from scratch.
+
+### 0. Configure SSH Keys (Optional but Recommended)
+
+SSH Key will enable secure and efficient access to your GitLab repository. To generate and add an SSH key, follow these steps:
+
+1. **Generate an SSH Key**:
+  ```bash
+  ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+  ```
+  Follow the prompts to save the key to the default location and set a passphrase.
+
+2. **Add the SSH Key to the SSH Agent**:
+  ```bash
+  eval "$(ssh-agent -s)"
+  ssh-add ~/.ssh/id_rsa
+  ```
+
+3. **Add the SSH Key to Your GitLab Account**:
+  > Copy the SSH key to your clipboard:
+
+  ```bash
+    cat ~/.ssh/id_rsa.pub
+  ```
+
+  > Go to your GitLab account, navigate to **Settings > SSH Keys**, and paste the key.
+
+Using SSH keys enhances security and avoids the need to enter your username and password for each Git operation.
+
+>You can check the documentation [here](https://docs.gitlab.com/ee/user/ssh.html) for more information.
+
+### 1. Clone the Repository
+
+If you have doubts on this step, check out the documentation [here](https://docs.gitlab.com/ee/topics/git/clone.html).
+
+With SSH:
+
+```bash
+git clone git@gitlab.com:JohnyPeters/by-the-law.git
+cd by-the-law
 ```
-cd existing_repo
-git remote add origin https://gitlab.com/JohnyPeters/by-the-law.git
-git branch -M main
-git push -uf origin main
+
+With HTTPs:
+
+```bash
+git clone https://gitlab.com/JohnyPeters/by-the-law.git
+cd by-the-law
 ```
 
-## Integrate with your tools
 
-- [ ] [Set up project integrations](https://gitlab.com/JohnyPeters/by-the-law/-/settings/integrations)
+### 2. Set Up Environment Variables
 
-## Collaborate with your team
+Create a `.env` file in the root directory to configure database credentials and Django settings:
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+```plaintext
+POSTGRES_NAME=postgres
+POSTGRES_USER=admin
+POSTGRES_PASSWORD=admin
+DJANGO_SUPERUSER_USERNAME=root
+DJANGO_SUPERUSER_EMAIL=admin@example.com
+DJANGO_SUPERUSER_PASSWORD=admin
+```
 
-## Test and Deploy
+You can also use the commend and update your variables:
+```bash
+cp .env.example .env
+```
 
-Use the built-in continuous integration in GitLab.
+> In order to run locally you can just update  
+  **DJANGO_SUPERUSER_USERNAME**, **DJANGO_SUPERUSER_EMAIL** and **DJANGO_SUPERUSER_PASSWORD**.
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
 
-***
+### 3. Build and Run the Project
 
-# Editing this README
+Use Docker Compose to build and start the project:
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+```bash
+make start
+```
 
-## Suggestions for a good README
+> If it is the first time you are running the project or whenever you see some warning like:
+  ```bash
+  You have X unapplied migration(s). Your project may not work properly until you apply the migrations for app(s): admin, auth, contenttypes, sessions.
+  ```
+  You can just run:
+  ```bash
+  make migrate
+  ```
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+And finally:
 
-## Name
-Choose a self-explaining name for your project.
+```bash
+make runserver
+```
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+- This command builds and starts the containers in detached mode, setting up the database and web services.
+- In the first run it will also migrate the database, create a superuser with your env settings
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+### 4. Access the Application
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+The application should be accessible at [http://localhost:8000](http://localhost:8000).
+The application admin should be accessible at [http://localhost:8000/admin](http://localhost:8000/admin)
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+### 3. Stopping the Project Without Data Loss
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+To stop the project without removing data, press Ctrl + C, and then:
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+```bash
+make stop
+```
+If you forget doing that the containers will keep up on the background of your system.
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+## Other useful commands (no need to run any of these):
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+### Linting your file changes
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+After work on some code changes you should run:
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+```bash
+make lint
+```
+That will point something wrong on the organization of your code. Before opening a new Merge Request make sure to run this.
 
-## License
-For open source projects, say how it is licensed.
+### Load Original Data into Postgress
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+If it is the first time you are running this project or you didn't have loaded the data yet, you should download the sqlite file from our [google drive](https://drive.google.com/file/d/1qCVdBCpu80rOqPVud5ks__Vg54kCv1Hx/view?usp=drive_link) and add extract it to the right folder like the following path:
+
+```bash
+  by-the-law/apps/dre/migrations/data/2024-10-27-DRE.sqlite3
+```
+
+If you try to migrate before this migration will fail, since it will not find the right path.
+
+
+### Migrate the Database
+
+After the containers are up, apply migrations to set up the database schema:
+
+```bash
+make migrate
+```
+
+### Create a Superuser
+
+By default the superuser will be created using your variables: To access the Django admin interface, create a superuser account:
+
+```bash
+make createsuperuser
+```
+
+Follow the prompts to set up an admin account.
+
+### Open server Bash
+
+This command opens a bash shell inside the running web container, allowing you to interact with the application environment directly.
+
+```bash
+make bash
+```
+
+### [WARNING] Remove all containers 
+
+If you wish to **REMOVE** all containers and volumes (and thus the data), use:
+
+  ```bash
+  make remove
+  ```
+
+## Additional Commands
+
+You can use `make help` to see a list of all available Make commands.
+
+In case you don't have make installed you can check for the commands in the [Makefile](./Makefile)
